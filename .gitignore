@@ -1,0 +1,12 @@
+# Archivos de Visual Studio
+.vs/
+
+# Inscripciones: llevan nombres y correos, no se suben a GitHub
+web/inscripciones.txt
+
+# Archivos del sistema
+Thumbs.db
+desktop.ini
+
+# Configuración local de Claude
+.claude/

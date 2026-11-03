@@ -1,74 +1,67 @@
 <?php
-/* =====================================================
-   CONFIGURACIÓN: constantes (define)
-   ===================================================== */
-date_default_timezone_set("Europe/Madrid");
-define("FERIA_TITULO", "III FERIA VIRTUAL LA SALLE BUSINESS MATCH 2027");
-define("FERIA_INICIO", "2027-03-18 10:00:00"); # CÁMBIALA por la fecha real (año-mes-día hora)
-define("FICHERO_CENTROS", "centros.txt");
-define("FICHERO_INSCRIPCIONES", "inscripciones.txt");
+/* =====================================================================
+   INDEX.PHP
+   Arriba: la LÓGICA (cargar datos, leer ficheros, procesar el formulario).
+   Abajo:  el HTML, que solo recorre las variables con foreach.
+   El CONTENIDO (textos, horas, enlaces) se cambia en config.php.
+   ===================================================================== */
+require "config.php";
 
 // Función para escribir texto de forma segura en el HTML
 function e($texto) {
     return htmlspecialchars($texto, ENT_QUOTES, "UTF-8");
 }
 
-/* =====================================================
-   ARRAYS con los datos de la web
-   ===================================================== */
-// Array asociativo: clave (id de la sección) => texto del menú
-$menu = [
-    "inicio"   => "Inicio",
-    "centros"  => "Centros",
-    "programa" => "Programa",
-    "foros"    => "Foros",
-    "reels"    => "Reels"
-];
+// Igual que e(), pero si MOSTRAR_PENDIENTES está en true lo subraya en amarillo.
+// Se usa para los datos de ejemplo que hay que cambiar por los reales.
+function cambiar($texto) {
+    if (MOSTRAR_PENDIENTES) {
+        return '<mark class="pendiente" title="Dato de ejemplo: cámbialo por el real">' . e($texto) . '</mark>';
+    }
+    return e($texto);
+}
 
-// Array de arrays: programa del día 1
-$programa = [
-    ["hora" => "10:00", "titulo" => "Bienvenida y conferencia inaugural"],
-    ["hora" => "11:15", "titulo" => "Mesa redonda: innovación"],
-    ["hora" => "13:00", "titulo" => "Demostración de proyectos"],
-    ["hora" => "14:30", "titulo" => "Sesión de networking"],
-    ["hora" => "16:00", "titulo" => "Taller de habilidades"],
-    ["hora" => "17:30", "titulo" => "Clausura y premios"]
-];
+// Devuelve true si el archivo existe (sirve para imágenes y vídeos opcionales)
+function hayArchivo($carpeta, $archivo) {
+    return $archivo !== "" && file_exists($carpeta . $archivo);
+}
 
-// Array de arrays: foros de otros años
-$foros = [
-    ["edicion" => "I Feria",  "anio" => 2025, "titulo" => "Conferencia: captar al público", "texto" => "Una charla para abrir la feria con empresas y centros."],
-    ["edicion" => "I Feria",  "anio" => 2025, "titulo" => "Mesa redonda: hablan los expertos", "texto" => "Profesionales del sector responden a las preguntas del alumnado."],
-    ["edicion" => "II Feria", "anio" => 2026, "titulo" => "Presentación de proyectos", "texto" => "Los centros muestran sus ideas más innovadoras."],
-    ["edicion" => "II Feria", "anio" => 2026, "titulo" => "Networking entre centros y empresas", "texto" => "Encuentros en grupos pequeños para crear contactos."],
-    ["edicion" => "II Feria", "anio" => 2026, "titulo" => "Taller práctico", "texto" => "Aprender haciendo, con ejemplos reales de empresa."],
-    ["edicion" => "II Feria", "anio" => 2026, "titulo" => "Charla distendida", "texto" => "Una conversación relajada para cerrar la jornada."]
-];
+// Si la imagen es de ejemplo (su nombre empieza por "ejemplo-"), devuelve una etiqueta de aviso
+function avisoImagen($archivo) {
+    if (MOSTRAR_PENDIENTES && str_starts_with($archivo, "ejemplo-")) {
+        return '<span class="aviso-imagen">Imagen de ejemplo</span>';
+    }
+    return "";
+}
 
-// Array de arrays: reels (vídeos cortos)
-$reels = [
-    ["titulo" => "Innovación",         "centro" => "IES Labordeta"],
-    ["titulo" => "Impacto global",     "centro" => "Col·legi Montserrat"],
-    ["titulo" => "Arte y creatividad", "centro" => "IES Miguel de Cervantes"]
-];
+// Un enlace "#" todavía no lleva a ningún sitio: hay que poner el real
+function enlacePendiente($url) {
+    return $url === "#" || $url === "";
+}
 
 /* =====================================================
    FICHEROS (1): leer los centros desde centros.txt
-   Cada línea:  nombre|ciudad|info|siglas|enlace
+   Cada línea:  nombre|ciudad|info|siglas|enlace|imagen
+   (el último campo, imagen, es opcional)
    ===================================================== */
 $centros = [];
 if (file_exists(FICHERO_CENTROS) && is_readable(FICHERO_CENTROS)) {
     $lineas = file(FICHERO_CENTROS, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     sort($lineas); // orden alfabético
     foreach ($lineas as $linea) {
+        // Las líneas que empiezan por # son comentarios: las saltamos
+        if (str_starts_with(trim($linea), "#")) {
+            continue;
+        }
         $campos = explode("|", $linea);
         if (count($campos) >= 5) {
             $centros[] = [
-                "nombre" => $campos[0],
-                "ciudad" => $campos[1],
-                "info"   => $campos[2],
-                "siglas" => $campos[3],
-                "url"    => $campos[4]
+                "nombre" => trim($campos[0]),
+                "ciudad" => trim($campos[1]),
+                "info"   => trim($campos[2]),
+                "siglas" => trim($campos[3]),
+                "url"    => trim($campos[4]),
+                "imagen" => trim($campos[5] ?? "")   // si no hay 6º campo, queda vacío
             ];
         }
     }
@@ -78,6 +71,7 @@ $ciudades = array_unique(array_column($centros, "ciudad"));
 
 /* =====================================================
    FICHEROS (2): guardar las inscripciones en inscripciones.txt
+   Cada línea:  fecha hora|nombre|correo|centro
    ===================================================== */
 $mensaje = "";
 $tipoMensaje = "";
@@ -123,7 +117,7 @@ if (file_exists(FICHERO_INSCRIPCIONES)) {
 }
 
 /* =====================================================
-   Estado de la feria (match)
+   Estado de la feria (match, necesita PHP 8)
    ===================================================== */
 $timestampInicio = strtotime(FERIA_INICIO);
 $faltan = $timestampInicio - time();
@@ -135,7 +129,6 @@ $textoContador = match (true) {
 ?>
 <!DOCTYPE html>
 <html lang="es">
-<!--Esta marca indica que es una página de HTML5-->
     <head>
         <title><?php echo e(FERIA_TITULO); ?></title>
         <meta charset="UTF-8">
@@ -146,20 +139,28 @@ $textoContador = match (true) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
         <!-- Bootstrap COMPLETO (bootstrap-grid.min.css solo trae la rejilla) -->
-        <link href="../bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="hola.css" rel="stylesheet" type="text/css">
     </head>
     <body>
 
+      <?php if (MOSTRAR_PENDIENTES): ?>
+      <!-- Aviso de borrador: desaparece al poner MOSTRAR_PENDIENTES en false (config.php) -->
+      <div class="aviso-borrador">
+        <b>Borrador.</b> Lo <mark class="pendiente">subrayado en amarillo</mark> son datos de ejemplo.
+        Cámbialos en <code>config.php</code> y <code>centros.txt</code> (busca «CAMBIAR»).
+      </div>
+      <?php endif; ?>
+
       <!-- ================= MENÚ (generado con el array $menu) ================= -->
       <nav class="navbar navbar-expand-lg navbar-feria sticky-top">
-        <div class="container-fluid px-lg-5">
-            <a class="navbar-brand" href="#inicio">La Salle Business Match</a>
+        <div class="container">
+            <a class="navbar-brand" href="#inicio"><span class="marca-logo">LS</span> Business Match</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#MenuNav" aria-controls="MenuNav" aria-expanded="false" aria-label="Abrir menú">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="MenuNav">
-                <ul class="navbar-nav ms-auto align-items-lg-center">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
                     <?php foreach ($menu as $id => $texto): ?>
                     <li class="nav-item"><a class="nav-link" href="#<?php echo e($id); ?>"><?php echo e($texto); ?></a></li>
                     <?php endforeach; ?>
@@ -169,33 +170,37 @@ $textoContador = match (true) {
         </div>
       </nav>
 
-      <!-- ================= TÍTULO ================= -->
+      <!-- ================= 2. TÍTULO ================= -->
       <header class="cabecera" id="inicio">
         <div class="container">
-            <h1>III FERIA VIRTUAL LA SALLE<br>BUSINESS MATCH 2027</h1>
-            <p>Conecta con los centros participantes, descubre sus proyectos y participa en los foros y encuentros de la feria.</p>
+            <span class="cabecera-etiqueta">Edición 2027 · 100 % online</span>
+            <h1><?php echo e(FERIA_TITULO); ?></h1>
+            <p><?php echo e(FERIA_LEMA); ?></p>
             <div class="mt-4 d-flex justify-content-center gap-3 flex-wrap">
                 <a href="#centros" class="btn btn-feria btn-feria-amarillo">Ver centros</a>
-                <a href="#programa" class="btn btn-feria">Ver programa</a>
+                <a href="#programa" class="btn btn-feria btn-feria-borde">Ver programa</a>
             </div>
         </div>
       </header>
 
-      <!-- ================= CONTADOR ================= -->
+      <!-- ================= 6. CONTADOR ================= -->
       <section class="contador-zona" id="contador">
         <div class="container">
             <h2><?php echo e($textoContador); ?></h2>
+            <?php if (MOSTRAR_PENDIENTES): ?>
+                <p class="contador-fecha">Fecha de ejemplo: <?php echo cambiar(date("d/m/Y H:i", $timestampInicio)); ?></p>
+            <?php endif; ?>
             <div class="contador">
                 <div class="contador-caja"><span class="contador-numero" id="dias">00</span><span class="contador-texto">Días</span></div>
                 <div class="contador-caja"><span class="contador-numero" id="horas">00</span><span class="contador-texto">Horas</span></div>
                 <div class="contador-caja"><span class="contador-numero" id="minutos">00</span><span class="contador-texto">Minutos</span></div>
                 <div class="contador-caja"><span class="contador-numero" id="segundos">00</span><span class="contador-texto">Segundos</span></div>
             </div>
-            <a href="#inscripcion" class="btn btn-feria btn-feria-amarillo">Inscríbete</a>
+            <a href="#inscripcion" class="btn btn-feria btn-feria-amarillo btn-grande">Inscríbete</a>
         </div>
       </section>
 
-      <!-- ================= CENTROS PARTICIPANTES (leídos de centros.txt) ================= -->
+      <!-- ================= 4. CENTROS PARTICIPANTES (leídos de centros.txt) ================= -->
       <section class="seccion" id="centros">
         <div class="container">
             <h2 class="titulo-seccion">Centros participantes</h2>
@@ -210,12 +215,21 @@ $textoContador = match (true) {
                 <?php foreach ($centros as $centro): ?>
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="tarjeta-centro">
-                        <div class="centro-imagen"><?php echo e($centro["siglas"]); ?></div>
+                        <?php if (hayArchivo(CARPETA_IMG, $centro["imagen"])): ?>
+                            <img class="centro-imagen" src="<?php echo e(CARPETA_IMG . $centro["imagen"]); ?>" alt="<?php echo e($centro["nombre"]); ?>">
+                            <?php echo avisoImagen($centro["imagen"]); ?>
+                        <?php else: ?>
+                            <div class="centro-imagen"><?php echo e($centro["siglas"]); ?></div>
+                        <?php endif; ?>
                         <div class="card-body">
                             <h3><?php echo e($centro["nombre"]); ?></h3>
-                            <p class="centro-ciudad"><?php echo e($centro["ciudad"]); ?></p>
-                            <p class="centro-info"><?php echo e($centro["info"]); ?></p>
-                            <a href="<?php echo e($centro["url"]); ?>" class="btn btn-feria btn-sm">Ver perfil</a>
+                            <p class="centro-ciudad">&#128205; <?php echo e($centro["ciudad"]); ?></p>
+                            <p class="centro-info"><?php echo cambiar($centro["info"]); ?></p>
+                            <?php if (enlacePendiente($centro["url"])): ?>
+                                <a href="#" class="btn btn-feria btn-sm">Ver perfil</a> <?php echo cambiar("falta el enlace"); ?>
+                            <?php else: ?>
+                                <a href="<?php echo e($centro["url"]); ?>" class="btn btn-feria btn-sm" target="_blank" rel="noopener">Ver perfil</a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -225,18 +239,18 @@ $textoContador = match (true) {
         </div>
       </section>
 
-      <!-- ================= PROGRAMA HORIZONTAL (array $programa) ================= -->
+      <!-- ================= 5. PROGRAMA HORIZONTAL (array $programa) ================= -->
       <section class="seccion seccion-gris" id="programa">
         <div class="container">
             <h2 class="titulo-seccion">Programa de la feria</h2>
-            <p class="subtitulo-seccion">Día 1. Todas las horas en horario peninsular.</p>
+            <p class="subtitulo-seccion"><?php echo e($programaDia); ?></p>
             <div class="programa-scroll">
                 <div class="programa">
                     <?php foreach ($programa as $posicion => $paso): ?>
                     <div class="programa-paso">
                         <div class="programa-punto"><?php echo $posicion + 1; ?></div>
-                        <span class="programa-hora"><?php echo e($paso["hora"]); ?></span>
-                        <span class="programa-titulo"><?php echo e($paso["titulo"]); ?></span>
+                        <span class="programa-hora"><?php echo cambiar($paso["hora"]); ?></span>
+                        <span class="programa-titulo"><?php echo cambiar($paso["titulo"]); ?></span>
                     </div>
                     <?php endforeach; ?>
                 </div>
@@ -244,7 +258,7 @@ $textoContador = match (true) {
         </div>
       </section>
 
-      <!-- ================= FOROS DE OTROS AÑOS (array $foros) ================= -->
+      <!-- ================= 5. FOROS DE OTROS AÑOS (array $foros) ================= -->
       <section class="seccion" id="foros">
         <div class="container">
             <h2 class="titulo-seccion">Foros de otros años</h2>
@@ -253,11 +267,16 @@ $textoContador = match (true) {
                 <?php foreach ($foros as $foro): ?>
                 <div class="col-12 col-sm-6 col-lg-4">
                     <div class="foro-tarjeta">
-                        <div class="foro-imagen"><?php echo e($foro["edicion"]); ?></div>
+                        <?php if (hayArchivo(CARPETA_IMG, $foro["imagen"])): ?>
+                            <img class="foro-imagen" src="<?php echo e(CARPETA_IMG . $foro["imagen"]); ?>" alt="<?php echo e($foro["titulo"]); ?>">
+                            <?php echo avisoImagen($foro["imagen"]); ?>
+                        <?php else: ?>
+                            <div class="foro-imagen"><?php echo e($foro["tipo"]); ?></div>
+                        <?php endif; ?>
                         <div class="card-body">
-                            <span class="foro-edicion"><?php echo (int)$foro["anio"]; ?></span>
-                            <h3><?php echo e($foro["titulo"]); ?></h3>
-                            <p><?php echo e($foro["texto"]); ?></p>
+                            <span class="foro-edicion"><?php echo e($foro["tipo"]); ?> · <?php echo (int)$foro["anio"]; ?></span>
+                            <h3><?php echo cambiar($foro["titulo"]); ?></h3>
+                            <p><?php echo cambiar($foro["texto"]); ?></p>
                         </div>
                     </div>
                 </div>
@@ -266,7 +285,7 @@ $textoContador = match (true) {
         </div>
       </section>
 
-      <!-- ================= REELS Y ENLACES A LOS CENTROS ================= -->
+      <!-- ================= 7. REELS Y ENLACES A LOS CENTROS ================= -->
       <section class="seccion seccion-gris" id="reels">
         <div class="container">
             <h2 class="titulo-seccion">Reels de los centros</h2>
@@ -275,9 +294,25 @@ $textoContador = match (true) {
                 <?php foreach ($reels as $reel): ?>
                 <div class="col-10 col-sm-6 col-lg-3">
                     <div class="reel">
-                        <button type="button" class="reel-play" aria-label="Reproducir reel: <?php echo e($reel["titulo"]); ?>">&#9654;</button>
-                        <h3><?php echo e($reel["titulo"]); ?></h3>
-                        <p><?php echo e($reel["centro"]); ?></p>
+                        <?php if (hayArchivo(CARPETA_VIDEOS, $reel["video"])): ?>
+                            <!-- Hay vídeo: se muestra el reproductor -->
+                            <video class="reel-video" src="<?php echo e(CARPETA_VIDEOS . $reel["video"]); ?>" controls preload="metadata"
+                                <?php if (hayArchivo(CARPETA_IMG, $reel["imagen"])): ?>poster="<?php echo e(CARPETA_IMG . $reel["imagen"]); ?>"<?php endif; ?>></video>
+                        <?php else: ?>
+                            <!-- No hay vídeo todavía: reel de ejemplo -->
+                            <?php if (hayArchivo(CARPETA_IMG, $reel["imagen"])): ?>
+                                <img class="reel-video" src="<?php echo e(CARPETA_IMG . $reel["imagen"]); ?>" alt="">
+                            <?php endif; ?>
+                            <span class="reel-etiqueta"><?php echo e($reel["titulo"]); ?></span>
+                            <?php if (MOSTRAR_PENDIENTES): ?><span class="aviso-imagen">Falta el vídeo</span><?php endif; ?>
+                            <button type="button" class="reel-play" aria-label="Reproducir reel: <?php echo e($reel["titulo"]); ?>">&#9654;</button>
+                            <div class="reel-texto">
+                                <h3><?php echo e($reel["titulo"]); ?></h3>
+                                <p class="reel-centro"><?php echo e($reel["centro"]); ?></p>
+                                <p class="reel-frase">“<?php echo cambiar($reel["frase"]); ?>”</p>
+                                <div class="reel-barra"><span></span></div>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <?php endforeach; ?>
@@ -286,7 +321,12 @@ $textoContador = match (true) {
             <h3 class="text-center mt-5 mb-4 fs-5">Accede directamente a cada centro</h3>
             <div class="row g-3">
                 <?php foreach ($centros as $centro): ?>
-                <div class="col-6 col-lg-3"><a class="enlace-centro" href="<?php echo e($centro["url"]); ?>"><?php echo e($centro["nombre"]); ?></a></div>
+                <div class="col-6 col-lg-3">
+                    <!-- Si el enlace está en "#", se marca con la clase enlace-pendiente -->
+                    <a class="enlace-centro <?php echo enlacePendiente($centro["url"]) && MOSTRAR_PENDIENTES ? "enlace-pendiente" : ""; ?>" href="<?php echo e($centro["url"]); ?>" <?php echo enlacePendiente($centro["url"]) ? "" : 'target="_blank" rel="noopener"'; ?>>
+                        <span><?php echo e($centro["nombre"]); ?></span><span aria-hidden="true">&#128279;</span>
+                    </a>
+                </div>
                 <?php endforeach; ?>
             </div>
         </div>
@@ -326,22 +366,27 @@ $textoContador = match (true) {
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-feria">Enviar inscripción</button>
+                        <button type="submit" class="btn btn-feria w-100">Enviar inscripción</button>
                     </form>
                 </div>
             </div>
         </div>
       </section>
 
-      <!-- ================= PIE ================= -->
+      <!-- ================= PIE (arrays $enlacesPie y $contacto) ================= -->
       <footer class="pie">
         <div class="container">
-            <p class="mb-2">&copy; <?php echo date("Y"); ?> <?php echo e(FERIA_TITULO); ?></p>
-            <a href="#">Acerca de</a><a href="#">Contacto</a><a href="#">Preguntas frecuentes</a><a href="#">Términos</a>
+            <div class="pie-enlaces">
+                <?php foreach ($enlacesPie as $texto => $url): ?>
+                <a href="<?php echo e($url); ?>"><?php echo enlacePendiente($url) ? cambiar($texto) : e($texto); ?></a>
+                <?php endforeach; ?>
+            </div>
+            <p class="mb-1">&#9742; <?php echo cambiar($contacto["telefono"]); ?> · &#9993; <a href="mailto:<?php echo e($contacto["email"]); ?>"><?php echo cambiar($contacto["email"]); ?></a></p>
+            <p class="mb-0 pie-copy">&copy; <?php echo date("Y"); ?> <?php echo e(FERIA_TITULO); ?></p>
         </div>
       </footer>
 
-      <script src="../bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+      <script src="bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
       <script>
         // La fecha de inicio viene de PHP (constante FERIA_INICIO), en milisegundos
         const inicioFeria = <?php echo $timestampInicio * 1000; ?>;

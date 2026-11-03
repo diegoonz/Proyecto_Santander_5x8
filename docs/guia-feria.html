@@ -103,23 +103,27 @@ td.ok { color: var(--ok); font-weight: 700; white-space: nowrap; }
   <main>
     <section id="arrancar">
       <h2>Arrancar la web</h2>
-      <p>El PHP no funciona con doble clic: hace falta un servidor. Con XAMPP:</p>
+      <p><b>Para ver la web</b> basta con abrir la dirección del grupo 8 en el navegador, sin instalar nada. Para <b>probar cambios en tu PC</b>, doble clic en <code>abrir-en-local.bat</code>: se abre en <code>http://localhost:8080</code> (necesita XAMPP en <code>C:\xampp</code>).</p>
+      <h3>Publicarla con FileZilla</h3>
+      <p>Solo funciona desde la red del centro.</p>
       <ol class="pasos">
-        <li><span>Copia la carpeta <code>Proyecto</code> entera (con <code>web</code> y <code>bootstrap-5.3.8-dist</code> dentro) a <code>C:\xampp\htdocs\</code>.</span></li>
-        <li><span>Abre el panel de XAMPP y pulsa <b>Start</b> en Apache.</span></li>
-        <li><span>En el navegador entra en <code>http://localhost/Proyecto/web/index.php</code>.</span></li>
+        <li><span>En FileZilla: servidor <code>172.26.10.2</code>, puerto <code>21</code>, y el usuario y la contraseña del grupo 8.</span></li>
+        <li><span>A la derecha entra en la carpeta del grupo 8. A la izquierda, en <code>Proyecto_GitHub\web</code>.</span></li>
+        <li><span>Arrastra <b>lo de dentro</b> de <code>web</code>, no la carpeta. Así la dirección queda corta.</span></li>
+        <li><span>Clic derecho en la carpeta del grupo 8 &gt; <b>Permisos de archivo</b>: tiene que poder escribir, o el formulario no guardará las inscripciones.</span></li>
+        <li><span>Abre la dirección del grupo. Pendiente de confirmar con el profesor; por cómo es la suya, debería ser algo parecido a <code>http://172.26.10.1:8088/Grupo8</code>.</span></li>
       </ol>
-      <p>Sin XAMPP abierto también vale el servidor que trae PHP, lanzado desde la carpeta <code>Proyecto</code>:</p>
-      <pre><code>C:\xampp\php\php.exe -S localhost:8080
-# y abre http://localhost:8080/web/index.php</code></pre>
     </section>
 
     <section id="archivos">
       <h2>Cómo están repartidos los archivos</h2>
       <p>La idea es separar <b>datos</b>, <b>lógica</b> y <b>aspecto</b>. Así cada persona del grupo puede tocar su parte sin pisar a los demás.</p>
-<div class="arbol">Proyecto/
-├── bootstrap-5.3.8-dist/   <em>Bootstrap en local (no se toca)</em>
-└── web/
+<div class="arbol">Proyecto_GitHub/
+├── abrir-en-local.bat      <em>abre la web en tu PC con doble clic</em>
+├── base_de_datos/          <em>script SQL (la web todavía no lo usa)</em>
+├── docs/                   <em>PDF del cliente y esta guía</em>
+└── web/                    <em>LO ÚNICO QUE SE SUBE AL SERVIDOR</em>
+    ├── bootstrap-5.3.8-dist/ <em>Bootstrap en local (no se toca)</em>
     ├── config.php          <em>DATOS: título, fecha, menú, programa, foros, reels, pie</em>
     ├── index.php           <em>LÓGICA arriba (lee ficheros, formulario) + HTML abajo</em>
     ├── hola.css            <em>ASPECTO: colores en :root y estilos de cada sección</em>
