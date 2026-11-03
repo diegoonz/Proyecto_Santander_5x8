@@ -1,0 +1,7 @@
+Aquí van las fotos de la web (.jpg, .png o .webp).
+
+- Centros: añade el nombre del archivo como 6º campo en centros.txt
+  Ejemplo:  IES Labordeta|Zaragoza|Centro público...|LB|https://...|labordeta.jpg
+- Foros y portadas de reels: pon el nombre en "imagen" dentro de config.php
+
+Si el archivo no existe, la web pinta un bloque azul con texto, así que nunca se rompe.

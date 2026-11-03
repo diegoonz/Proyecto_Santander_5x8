@@ -1,0 +1,8 @@
+IES Miguel de Cervantes|Madrid|Centro público bilingüe, secundaria y bachillerato.|MC|#
+IES Ramiro de Maeztu|Vitoria-Gasteiz|Centro público bilingüe, secundaria y bachillerato.|RM|#
+CEIP Giner de los Ríos|Sevilla|Centro público bilingüe, infantil y primaria.|GR|#
+Col·legi Montserrat|Barcelona|Centro concertado bilingüe, secundaria y bachillerato.|CM|#
+IES Labordeta|Zaragoza|Centro público bilingüe, secundaria y bachillerato.|LB|#
+IES Zaragoza|Zaragoza|Centro público, secundaria y formación profesional.|IZ|#
+IES Caslierde de Dios|Madrid|Centro público bilingüe, secundaria y bachillerato.|CD|#
+La Salle Business School|Zaragoza|Centro concertado, formación profesional.|LS|#

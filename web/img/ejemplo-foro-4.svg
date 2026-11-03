@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" role="img" aria-label="Networking">
+<defs><linearGradient id="fondo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#003f7d" stop-opacity="1"/><stop offset="1" stop-color="#002a55" stop-opacity="1"/></linearGradient></defs>
+<rect x="0" y="0" width="400" height="200" fill="url(#fondo)" />
+<circle cx="360" cy="30" r="40" fill="#1d6bb8" opacity="0.25"/>
+<circle cx="30" cy="170" r="50" fill="#1d6bb8" opacity="0.2"/>
+<line x1="70" y1="90" x2="140" y2="130" fill="none" stroke="#ffd100" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 6"/>
+<circle cx="105" cy="110" r="4" fill="#ffd100" />
+<line x1="140" y1="130" x2="100" y2="150" fill="none" stroke="#ffd100" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 6"/>
+<circle cx="120" cy="140" r="4" fill="#ffd100" />
+<line x1="70" y1="90" x2="100" y2="150" fill="none" stroke="#ffd100" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 6"/>
+<circle cx="85" cy="120" r="4" fill="#ffd100" />
+<line x1="270" y1="80" x2="330" y2="120" fill="none" stroke="#ffd100" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 6"/>
+<circle cx="300" cy="100" r="4" fill="#ffd100" />
+<line x1="330" y1="120" x2="250" y2="140" fill="none" stroke="#ffd100" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 6"/>
+<circle cx="290" cy="130" r="4" fill="#ffd100" />
+<line x1="270" y1="80" x2="250" y2="140" fill="none" stroke="#ffd100" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 6"/>
+<circle cx="260" cy="110" r="4" fill="#ffd100" />
+<line x1="140" y1="130" x2="250" y2="140" fill="none" stroke="#ffd100" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 6"/>
+<circle cx="195" cy="135" r="4" fill="#ffd100" />
+<circle cx="70" cy="70" r="9" fill="#ffd100" /><path d="M56 112 L56 94 Q56 81 70 81 Q84 81 84 94 L84 112 Z" fill="#ffffff" />
+<circle cx="140" cy="110" r="9" fill="#ffffff" /><path d="M126 152 L126 134 Q126 121 140 121 Q154 121 154 134 L154 152 Z" fill="#ffd100" />
+<circle cx="100" cy="130" r="9" fill="#ffd100" /><path d="M86 172 L86 154 Q86 141 100 141 Q114 141 114 154 L114 172 Z" fill="#1d6bb8" />
+<circle cx="270" cy="60" r="9" fill="#ffffff" /><path d="M256 102 L256 84 Q256 71 270 71 Q284 71 284 84 L284 102 Z" fill="#ffd100" />
+<circle cx="330" cy="100" r="9" fill="#ffd100" /><path d="M316 142 L316 124 Q316 111 330 111 Q344 111 344 124 L344 142 Z" fill="#ffffff" />
+<circle cx="250" cy="120" r="9" fill="#ffffff" /><path d="M236 162 L236 144 Q236 131 250 131 Q264 131 264 144 L264 162 Z" fill="#1d6bb8" />
+<circle cx="200" cy="40" r="14" fill="#ffd100" /><circle cx="200" cy="40" r="6" fill="#003f7d" />
+<line x1="200" y1="54" x2="140" y2="100" fill="none" stroke="#ffd100" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 6"/><line x1="200" y1="54" x2="270" y2="80" fill="none" stroke="#ffd100" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 6"/>
+</svg>

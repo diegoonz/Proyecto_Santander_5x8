@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" role="img" aria-label="Centro LG">
+<defs><linearGradient id="cielo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d6bb8" stop-opacity="0.65"/><stop offset="1" stop-color="#e6eef7" stop-opacity="1"/></linearGradient></defs>
+<rect x="0" y="0" width="400" height="200" fill="url(#cielo)" />
+<rect x="0" y="0" width="400" height="200" fill="url(#cielo)" />
+<circle cx="330" cy="34" r="12" fill="#ffffff" opacity="0.9"/><circle cx="346" cy="28" r="16" fill="#ffffff" opacity="0.9"/><circle cx="364" cy="35" r="11" fill="#ffffff" opacity="0.9"/><rect x="320" y="34" width="54" height="12" fill="#ffffff" opacity="0.9"/>
+<rect x="0" y="150" width="400" height="50" fill="#f2f4f7" />
+<rect x="0" y="150" width="400" height="4" fill="#ffffff" />
+<polygon points="186,150 214,150 234,200 166,200" fill="#ffffff" />
+<rect x="39" y="128" width="6" height="24" fill="#6b7280" /><circle cx="42" cy="112" r="20" fill="#1d6bb8" /><circle cx="53" cy="122" r="12" fill="#1d6bb8" /><circle cx="31" cy="123" r="11" fill="#003f7d" />
+<rect x="80" y="14" width="240" height="136" fill="#003f7d" />
+<rect x="80" y="14" width="240" height="28" fill="#002a55" />
+<rect x="74" y="8" width="252" height="8" fill="#002a55" />
+<rect x="166" y="18" width="68" height="20" fill="#ffd100" rx="5"/><text x="200" y="33" text-anchor="middle" font-family="Montserrat, Segoe UI, Arial, sans-serif" font-weight="800" font-size="14" fill="#003f7d">LG</text>
+<rect x="99" y="51" width="22" height="18" fill="#ffd100" rx="2"/><rect x="97" y="69" width="26" height="3" fill="#002a55" />
+<rect x="159" y="51" width="22" height="18" fill="#ffffff" rx="2"/><rect x="157" y="69" width="26" height="3" fill="#002a55" />
+<rect x="219" y="51" width="22" height="18" fill="#ffd100" rx="2"/><rect x="217" y="69" width="26" height="3" fill="#002a55" />
+<rect x="279" y="51" width="22" height="18" fill="#ffffff" rx="2"/><rect x="277" y="69" width="26" height="3" fill="#002a55" />
+<rect x="99" y="87" width="22" height="18" fill="#ffffff" rx="2"/><rect x="97" y="105" width="26" height="3" fill="#002a55" />
+<rect x="159" y="87" width="22" height="18" fill="#ffd100" rx="2"/><rect x="157" y="105" width="26" height="3" fill="#002a55" />
+<rect x="219" y="87" width="22" height="18" fill="#ffffff" rx="2"/><rect x="217" y="105" width="26" height="3" fill="#002a55" />
+<rect x="279" y="87" width="22" height="18" fill="#ffd100" rx="2"/><rect x="277" y="105" width="26" height="3" fill="#002a55" />
+<rect x="99" y="123" width="22" height="18" fill="#ffd100" rx="2"/><rect x="97" y="141" width="26" height="3" fill="#002a55" />
+<rect x="159" y="123" width="22" height="18" fill="#ffffff" rx="2"/><rect x="157" y="141" width="26" height="3" fill="#002a55" />
+<rect x="219" y="123" width="22" height="18" fill="#ffd100" rx="2"/><rect x="217" y="141" width="26" height="3" fill="#002a55" />
+<rect x="279" y="123" width="22" height="18" fill="#ffffff" rx="2"/><rect x="277" y="141" width="26" height="3" fill="#002a55" />
+<rect x="186" y="120" width="28" height="30" fill="#e6bc00" rx="3"/><rect x="190" y="124" width="20" height="26" fill="#ffd100" rx="2"/><circle cx="205" cy="138" r="2" fill="#002a55" />
+<rect x="74" y="146" width="252" height="4" fill="#002a55" />
+</svg>

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "feria-php",
+      "runtimeExecutable": "C:\\xampp\\php\\php.exe",
+      "runtimeArgs": ["-S", "localhost:8080", "-t", "D:\\ModulosDAM\\Proyecto"],
+      "port": 8080
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+Aquí van los vídeos .mp4 de los reels (cortos y en vertical, mejor de menos de 20 MB).
+
+Pon el nombre del archivo en "video" dentro del array $reels de config.php.
+Ejemplo:  "video" => "labordeta.mp4"
+
+Si el vídeo no existe, se muestra el reel de ejemplo con el botón amarillo.

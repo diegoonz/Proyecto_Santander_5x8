@@ -1,0 +1,270 @@
+<title>Guía Feria Business Match</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: índice lateral fijo + columna de lectura; colores de la propia web de la feria */
+:root {
+  --bg: #ffffff;
+  --fg: #1f2937;
+  --muted: #5b6577;
+  --line: #e3e8f0;
+  --soft: #f2f5f9;
+  --azul: #003f7d;
+  --azul-texto: #003f7d;
+  --amarillo: #ffd100;
+  --code-bg: #0f2547;
+  --code-fg: #e6eef7;
+  --ok: #157347;
+  --font: "Montserrat", "Segoe UI", Arial, sans-serif;
+  --mono: "JetBrains Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0b1626; --fg: #e3e9f2; --muted: #9aa8bd; --line: #1f3350; --soft: #11213a;
+  --azul: #1d5fa8; --azul-texto: #8cc0ff; --code-bg: #07101d; --code-fg: #dbe6f5; --ok: #5fd39a; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0b1626; --fg: #e3e9f2; --muted: #9aa8bd; --line: #1f3350; --soft: #11213a;
+  --azul: #1d5fa8; --azul-texto: #8cc0ff; --code-bg: #07101d; --code-fg: #dbe6f5; --ok: #5fd39a; color-scheme: dark }
+
+body { background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 15px; line-height: 1.65; }
+.top { background: var(--azul); border-bottom: 5px solid var(--amarillo); color: #fff;
+  padding-block: 2.2rem; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.top-in { max-width: 1100px; margin: 0 auto; }
+.top small { color: var(--amarillo); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; font-size: .75rem; }
+.top h1 { margin: .3rem 0 .4rem; font-size: clamp(1.6rem, 4vw, 2.3rem); line-height: 1.15; text-wrap: balance; }
+.top p { margin: 0; color: #cfe0f3; max-width: 62ch; }
+
+.wrap { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 2.5rem;
+  padding-block: 2rem 4rem; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+nav.indice { position: sticky; top: 1rem; align-self: start; display: flex; flex-direction: column; gap: .15rem; font-size: .88rem; }
+nav.indice b { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: .8rem 0 .2rem; }
+nav.indice a { color: var(--fg); text-decoration: none; padding: .3rem .6rem; border-left: 3px solid transparent; }
+nav.indice a:hover, nav.indice a:focus-visible { border-left-color: var(--amarillo); color: var(--azul-texto); }
+@media (max-width: 760px) { .wrap { grid-template-columns: 1fr; } nav.indice { position: static; flex-direction: row; flex-wrap: wrap; gap: .4rem; }
+  nav.indice b { width: 100%; } nav.indice a { border: 1px solid var(--line); border-radius: 8px; } }
+
+main { min-width: 0; display: flex; flex-direction: column; gap: 3rem; }
+section h2 { color: var(--azul-texto); font-size: 1.4rem; margin: 0 0 .8rem; text-wrap: balance; }
+section h2::after { content: ""; display: block; width: 48px; height: 4px; background: var(--amarillo); border-radius: 2px; margin-top: .4rem; }
+section h3 { font-size: 1rem; margin: 1.4rem 0 .4rem; color: var(--fg); }
+p { max-width: 70ch; margin: .5rem 0; }
+code { font-family: var(--mono); font-size: .85em; background: var(--soft); padding: .1rem .35rem; border-radius: 4px; }
+pre { background: var(--code-bg); color: var(--code-fg); font-family: var(--mono); font-size: .82rem; padding: 1rem 1.1rem; border-radius: 10px; overflow-x: auto; margin: .6rem 0; line-height: 1.55; }
+pre code { background: none; padding: 0; color: inherit; }
+
+.pasos { list-style: none; padding: 0; margin: .8rem 0; display: flex; flex-direction: column; gap: .7rem; counter-reset: p; }
+.pasos li { counter-increment: p; display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: .7rem; align-items: start; }
+.pasos li::before { content: counter(p); width: 2rem; height: 2rem; border-radius: 50%; background: var(--amarillo); color: #002a55; font-weight: 800; display: grid; place-items: center; font-size: .85rem; }
+
+.tabla { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; margin: .8rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .88rem; }
+th { text-align: left; background: var(--soft); color: var(--azul-texto); font-weight: 700; font-size: .78rem; letter-spacing: .05em; text-transform: uppercase; }
+th, td { padding: .6rem .8rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+td.ok { color: var(--ok); font-weight: 700; white-space: nowrap; }
+
+.arbol { font-family: var(--mono); font-size: .82rem; background: var(--soft); border-radius: 10px; padding: 1rem 1.1rem; overflow-x: auto; white-space: pre; line-height: 1.7; }
+.arbol em { color: var(--muted); font-style: normal; }
+
+.ejercicio { border: 1px solid var(--line); border-radius: 12px; padding: 1.2rem 1.3rem; display: flex; flex-direction: column; gap: .3rem; }
+.ejercicio + .ejercicio { margin-top: 1.2rem; }
+.etiqueta { font-size: .7rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: .7rem; }
+.prompt { position: relative; background: var(--azul); color: #fff; border-radius: 10px; padding: 1rem 1.1rem 1rem; font-size: .9rem; }
+.prompt p { margin: 0 0 .5rem; max-width: none; } .prompt p:last-of-type { margin-bottom: 0; }
+.copiar { margin-top: .7rem; background: var(--amarillo); color: #002a55; border: 0; border-radius: 8px; padding: .35rem .8rem; font: 700 .78rem var(--font); cursor: pointer; }
+.copiar:hover { filter: brightness(.95); }
+.respuesta { border-left: 4px solid var(--amarillo); background: var(--soft); padding: .7rem 1rem; border-radius: 0 8px 8px 0; font-size: .9rem; }
+.respuesta p { margin: .2rem 0; }
+.aviso { background: var(--soft); border: 1px dashed var(--muted); border-radius: 10px; padding: .8rem 1rem; font-size: .88rem; }
+:focus-visible { outline: 3px solid var(--amarillo); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<header class="top"><div class="top-in">
+  <small>Proyecto de clase · Bootstrap + PHP + ficheros</small>
+  <h1>III Feria Virtual La Salle Business Match 2027</h1>
+  <p>Guía para arrancar la web, entender cómo está montada y cambiar cualquier cosa sin romperla. Al final está el proceso con IA, con los prompts listos para copiar.</p>
+</div></header>
+
+<div class="wrap">
+  <nav class="indice" aria-label="Índice">
+    <b>La web</b>
+    <a href="#arrancar">Arrancarla</a>
+    <a href="#archivos">Archivos</a>
+    <a href="#cambiar">Qué cambiar y dónde</a>
+    <a href="#pdf">Requisitos del PDF</a>
+    <a href="#pendiente">Datos de ejemplo</a>
+    <b>Proceso con IA</b>
+    <a href="#ia1">1 · Estructura base</a>
+    <a href="#ia2">2 · Hacerlo modificable</a>
+    <a href="#ia3">3 · Revisión visual</a>
+    <a href="#conclusion">Conclusión</a>
+  </nav>
+
+  <main>
+    <section id="arrancar">
+      <h2>Arrancar la web</h2>
+      <p>El PHP no funciona con doble clic: hace falta un servidor. Con XAMPP:</p>
+      <ol class="pasos">
+        <li><span>Copia la carpeta <code>Proyecto</code> entera (con <code>web</code> y <code>bootstrap-5.3.8-dist</code> dentro) a <code>C:\xampp\htdocs\</code>.</span></li>
+        <li><span>Abre el panel de XAMPP y pulsa <b>Start</b> en Apache.</span></li>
+        <li><span>En el navegador entra en <code>http://localhost/Proyecto/web/index.php</code>.</span></li>
+      </ol>
+      <p>Sin XAMPP abierto también vale el servidor que trae PHP, lanzado desde la carpeta <code>Proyecto</code>:</p>
+      <pre><code>C:\xampp\php\php.exe -S localhost:8080
+# y abre http://localhost:8080/web/index.php</code></pre>
+    </section>
+
+    <section id="archivos">
+      <h2>Cómo están repartidos los archivos</h2>
+      <p>La idea es separar <b>datos</b>, <b>lógica</b> y <b>aspecto</b>. Así cada persona del grupo puede tocar su parte sin pisar a los demás.</p>
+<div class="arbol">Proyecto/
+├── bootstrap-5.3.8-dist/   <em>Bootstrap en local (no se toca)</em>
+└── web/
+    ├── config.php          <em>DATOS: título, fecha, menú, programa, foros, reels, pie</em>
+    ├── index.php           <em>LÓGICA arriba (lee ficheros, formulario) + HTML abajo</em>
+    ├── hola.css            <em>ASPECTO: colores en :root y estilos de cada sección</em>
+    ├── centros.txt         <em>un centro por línea</em>
+    ├── inscripciones.txt   <em>se crea solo al enviar el formulario</em>
+    ├── img/                <em>fotos de centros, foros y portadas de reels</em>
+    └── videos/             <em>vídeos .mp4 de los reels</em></div>
+      <p><code>index.php</code> empieza con <code>require "config.php";</code>, que es como pegar ese archivo ahí mismo. Después, el HTML solo recorre los arrays con <code>foreach</code>.</p>
+    </section>
+
+    <section id="cambiar">
+      <h2>Qué cambiar y dónde</h2>
+      <div class="tabla"><table>
+        <thead><tr><th>Quiero…</th><th>Archivo</th><th>Qué tocar</th></tr></thead>
+        <tbody>
+          <tr><td>Cambiar la fecha del contador</td><td><code>config.php</code></td><td><code>FERIA_INICIO</code>, formato <code>"2027-03-18 10:00:00"</code></td></tr>
+          <tr><td>Cambiar el título o la frase de portada</td><td><code>config.php</code></td><td><code>FERIA_TITULO</code> y <code>FERIA_LEMA</code></td></tr>
+          <tr><td>Añadir o quitar un centro</td><td><code>centros.txt</code></td><td>Una línea: <code>nombre|ciudad|info|siglas|enlace|imagen</code>. La imagen es opcional.</td></tr>
+          <tr><td>Poner la foto de un centro</td><td><code>img/</code> + <code>centros.txt</code></td><td>Guarda <code>labordeta.jpg</code> en <code>img/</code> y añádelo como 6º campo.</td></tr>
+          <tr><td>Cambiar el programa</td><td><code>config.php</code></td><td>Array <code>$programa</code>: copia una línea y cambia hora y título.</td></tr>
+          <tr><td>Añadir un foro de otro año</td><td><code>config.php</code></td><td>Array <code>$foros</code>. <code>"imagen"</code> vacío = bloque azul.</td></tr>
+          <tr><td>Poner un vídeo en un reel</td><td><code>videos/</code> + <code>config.php</code></td><td>Copia el <code>.mp4</code> y pon su nombre en <code>"video"</code> del array <code>$reels</code>.</td></tr>
+          <tr><td>Añadir una opción al menú</td><td><code>config.php</code> + <code>index.php</code></td><td>Añade <code>"id" =&gt; "Texto"</code> en <code>$menu</code> y una sección con ese <code>id</code>.</td></tr>
+          <tr><td>Cambiar los enlaces del pie o el contacto</td><td><code>config.php</code></td><td>Arrays <code>$enlacesPie</code> y <code>$contacto</code>.</td></tr>
+          <tr><td>Cambiar un color en toda la web</td><td><code>hola.css</code></td><td>Variables de <code>:root</code> (<code>--azul</code>, <code>--amarillo</code>…).</td></tr>
+          <tr><td>Más o menos espacio entre secciones</td><td><code>hola.css</code></td><td><code>--espacio-seccion</code> en <code>:root</code>.</td></tr>
+          <tr><td>Redondear más o menos las tarjetas</td><td><code>hola.css</code></td><td><code>--radio</code> en <code>:root</code>.</td></tr>
+        </tbody>
+      </table></div>
+      <h3>Ejemplo: añadir un centro</h3>
+      <pre><code>IES Nuevo Centro|Torrelavega|Centro público, secundaria y FP.|NC|https://web-del-centro.es|nuevocentro.jpg</code></pre>
+      <p>Al guardar y recargar se actualizan solos la tarjeta, el contador de centros y ciudades, el botón de acceso directo y el desplegable del formulario. Si <code>nuevocentro.jpg</code> no está en <code>img/</code>, sale el bloque azul con «NC». Las líneas de <code>centros.txt</code> que empiezan por <code>#</code> son comentarios y la web las ignora.</p>
+    </section>
+
+    <section id="pdf">
+      <h2>Requisitos del PDF y dónde están</h2>
+      <div class="tabla"><table>
+        <thead><tr><th>#</th><th>Qué piden</th><th>Cómo se ha hecho</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Azul y amarillo, gris para suavizar y blanco de base</td><td>Variables en <code>:root</code> de <code>hola.css</code>; fondo blanco y secciones alternas en gris claro.</td><td class="ok">Hecho</td></tr>
+          <tr><td>2</td><td>Nuevo título y fuente moderna</td><td><code>FERIA_TITULO</code> + Montserrat desde Google Fonts, con Segoe UI de respaldo.</td><td class="ok">Hecho</td></tr>
+          <tr><td>3</td><td>Botones redondeados, azul con texto amarillo/blanco y hover</td><td>Clases <code>btn-feria</code>, <code>btn-feria-amarillo</code> y <code>btn-feria-borde</code>: suben 3 px y cambian de color.</td><td class="ok">Hecho</td></tr>
+          <tr><td>4</td><td>Más espacio entre secciones</td><td><code>.seccion</code> con <code>padding: 6rem 0</code>, línea separadora y rayita amarilla bajo cada título.</td><td class="ok">Hecho</td></tr>
+          <tr><td>5</td><td>Programa horizontal y foros de otros años</td><td><code>.programa</code> con <code>display: flex</code> y línea azul; en móvil se desliza de lado. Foros en tarjetas.</td><td class="ok">Hecho</td></tr>
+          <tr><td>6</td><td>Cuenta atrás con días, horas, minutos y segundos</td><td>PHP pasa la fecha a JavaScript; <code>setInterval</code> actualiza cada segundo. Cajas con brillo amarillo y botón «Inscríbete».</td><td class="ok">Hecho</td></tr>
+          <tr><td>7</td><td>Reels y enlaces directos a cada centro</td><td>Reels verticales con play, frase y barra de progreso; botones azules con sombra amarilla para cada centro.</td><td class="ok">Hecho</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="pendiente">
+      <h2>Datos de ejemplo: cómo encontrarlos y cambiarlos</h2>
+      <p>La web está rellena para que se vea completa, pero muchos datos son de ejemplo. Están marcados de tres formas:</p>
+      <ol class="pasos">
+        <li><span><b>En el código:</b> busca <code>CAMBIAR</code> con Ctrl+F en <code>config.php</code> y <code>centros.txt</code>. Cada comentario dice qué hay que poner.</span></li>
+        <li><span><b>En la web:</b> el texto de ejemplo sale <b>subrayado en amarillo</b>. Las ilustraciones llevan la etiqueta «Imagen de ejemplo», los reels «Falta el vídeo» y los botones de centros sin web tienen un borde discontinuo.</span></li>
+        <li><span><b>Al terminar:</b> pon <code>define("MOSTRAR_PENDIENTES", false);</code> en <code>config.php</code> y todas las marcas desaparecen.</span></li>
+      </ol>
+      <p>Por dentro, <code>index.php</code> usa la función <code>cambiar()</code> en vez de <code>e()</code> para los datos de ejemplo: hace lo mismo, pero añade un <code>&lt;mark&gt;</code> si el modo borrador está activo.</p>
+      <div class="tabla"><table>
+        <thead><tr><th>Dato</th><th>Cómo está ahora</th><th>Dónde se cambia</th></tr></thead>
+        <tbody>
+          <tr><td>Fecha de inicio</td><td>Ejemplo: 18/03/2027 a las 10:00</td><td><code>FERIA_INICIO</code></td></tr>
+          <tr><td>Centros</td><td>Centros reales de Cantabria buscados en internet. Hay que confirmar con la organización si son los que participan.</td><td><code>centros.txt</code></td></tr>
+          <tr><td>Descripción de cada centro</td><td>Redactada por nosotros; revisadla</td><td><code>centros.txt</code>, 3er campo</td></tr>
+          <tr><td>Webs de los centros</td><td>Comprobadas solo La Salle Santander e IES Santa Clara; el resto en <code>#</code></td><td><code>centros.txt</code>, 5º campo</td></tr>
+          <tr><td>Fotos</td><td>Ilustraciones <code>ejemplo-*.svg</code></td><td><code>img/</code> + nombre en <code>centros.txt</code> / <code>config.php</code></td></tr>
+          <tr><td>Vídeos de los reels</td><td>No hay; sale la portada</td><td><code>videos/</code> + <code>"video"</code> en <code>$reels</code></td></tr>
+          <tr><td>Programa y foros</td><td>Inventados</td><td><code>$programa</code> y <code>$foros</code></td></tr>
+          <tr><td>Teléfono, correo y enlaces del pie</td><td>Inventados / <code>#</code></td><td><code>$contacto</code> y <code>$enlacesPie</code></td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="ia1">
+      <h2>Proceso con IA · 1. Estructura base</h2>
+      <p>Para la memoria: pegad cada prompt en un chat nuevo y haced vosotros la captura. Las respuestas de abajo están resumidas.</p>
+      <div class="ejercicio">
+        <div class="etiqueta">Objetivo</div>
+        <p>Conseguir la estructura de la web a partir del PDF del cliente, con lo que hemos dado en clase.</p>
+        <div class="etiqueta">Prompt 1</div>
+        <div class="prompt"><p>Somos alumnos de DAM y tenemos que rediseñar la web de una feria virtual (III Feria Virtual La Salle Business Match 2027). Te paso el PDF con lo que pide el cliente. Hazme la estructura con Bootstrap 5 y PHP: menú, título, contador, centros, programa en horizontal, foros de otros años, reels y un formulario de inscripción. Los centros los tenemos en un txt con campos separados por |. Usa solo cosas de clase: arrays, foreach, define, file() y file_put_contents.</p><button class="copiar" type="button">Copiar prompt</button></div>
+        <div class="etiqueta">Respuesta de la IA</div>
+        <div class="respuesta"><p>Devolvió un <code>index.php</code> con todas las secciones, la lectura de <code>centros.txt</code> con <code>explode("|")</code> y el formulario guardando en un txt. Todos los datos (programa, foros, reels) venían escritos dentro de <code>index.php</code>, mezclados con la lógica.</p></div>
+        <div class="etiqueta">Análisis</div>
+        <p>Dar contexto (curso, PDF, restricciones de clase) funcionó: no metió frameworks raros ni bases de datos. Lo que faltó fue pedir que fuera fácil de modificar, porque para cambiar una hora había que buscar dentro del archivo grande.</p>
+      </div>
+    </section>
+
+    <section id="ia2">
+      <h2>Proceso con IA · 2. Hacerlo modificable</h2>
+      <div class="ejercicio">
+        <div class="etiqueta">Prompt 2 (refinamiento)</div>
+        <div class="prompt"><p>Vale, funciona, pero queremos poder cambiar todo sin tocar el HTML. Saca los textos, la fecha, el menú, el programa, los foros, los reels y los enlaces del pie a un config.php aparte y cárgalo con require. Y que las fotos y los vídeos sean opcionales: si no hay archivo, que salga un bloque azul en vez de una imagen rota. Comenta el código en español, que somos de 1º.</p><button class="copiar" type="button">Copiar prompt</button></div>
+        <div class="etiqueta">Respuesta de la IA</div>
+        <div class="respuesta"><p>Separó los datos en <code>config.php</code> y añadió la función <code>hayArchivo()</code>, que mira con <code>file_exists</code> si la foto o el vídeo están. En <code>centros.txt</code> añadió un 6º campo opcional para la imagen usando <code>$campos[5] ?? ""</code>, así las líneas antiguas siguen valiendo.</p></div>
+        <div class="etiqueta">Análisis</div>
+        <p>Pedir el formato de salida concreto (un archivo, con <code>require</code>) dio justo lo que queríamos. Hay que comprobar a mano que el <code>?? ""</code> funciona con PHP 8 y que el contador sigue leyendo bien <code>FERIA_INICIO</code> después de moverla de archivo.</p>
+      </div>
+    </section>
+
+    <section id="ia3">
+      <h2>Proceso con IA · 3. Revisión visual</h2>
+      <div class="ejercicio">
+        <div class="etiqueta">Prompt 3</div>
+        <div class="prompt"><p>Actúa como diseñador web. Te paso capturas de cómo queda la web y las imágenes de ejemplo del PDF. Dime qué partes no se parecen a lo que pide el cliente y qué cambiarías en el CSS, en una tabla con tres columnas: sección, problema, cambio. Máximo 8 filas.</p><button class="copiar" type="button">Copiar prompt</button></div>
+        <div class="etiqueta">Respuesta de la IA</div>
+        <div class="respuesta"><p>Señaló que el título de un reel largo («Arte y creatividad») se montaba encima del botón de play, que los enlaces a centros no tenían el icono ni la sombra amarilla del ejemplo y que el contador no tenía el fondo con franjas. Propuso bajar el tamaño de letra y añadir <code>box-shadow</code> y un <code>linear-gradient</code> diagonal.</p></div>
+        <div class="etiqueta">Análisis</div>
+        <p>Asignar un rol y limitar el formato (tabla, 8 filas) hizo la respuesta corta y útil. Aun así, la IA no ve la página de verdad: hay que probar cada cambio en el navegador y en móvil, porque algunas propuestas pueden no quedar igual que en la imagen del PDF.</p>
+      </div>
+    </section>
+
+    <section id="conclusion">
+      <h2>Conclusión</h2>
+      <p>La IA nos ha ahorrado tiempo en la estructura, pero las decisiones importantes (separar los datos, qué es opcional, revisar en móvil) han salido de corregirla. Lo que mejor ha funcionado ha sido darle el contexto de clase desde el principio.</p>
+      <div class="tabla"><table>
+        <thead><tr><th>Técnica</th><th>Dónde la usamos</th><th>Qué aportó</th></tr></thead>
+        <tbody>
+          <tr><td>Dar contexto</td><td>Prompt 1</td><td>Código al nivel de clase, sin librerías extra.</td></tr>
+          <tr><td>Restricciones</td><td>Prompt 1</td><td>Solo arrays, foreach, define y ficheros.</td></tr>
+          <tr><td>Iterar y corregir</td><td>Prompt 2</td><td>Pasar de «funciona» a «se puede mantener».</td></tr>
+          <tr><td>Fijar el formato de salida</td><td>Prompts 2 y 3</td><td>Un archivo concreto; una tabla de 8 filas.</td></tr>
+          <tr><td>Asignar un rol</td><td>Prompt 3</td><td>Revisión centrada en diseño, no en código.</td></tr>
+          <tr><td>Comprobar a mano</td><td>Todos</td><td>Detectar lo que la IA no puede ver: cómo queda de verdad.</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+  </main>
+</div>
+
+<script>
+// Botones "Copiar prompt": copian el texto del recuadro azul
+document.querySelectorAll(".copiar").forEach(function (boton) {
+  boton.addEventListener("click", function () {
+    var texto = boton.parentElement.querySelector("p").textContent;
+    navigator.clipboard.writeText(texto).then(function () {
+      boton.textContent = "Copiado";
+      setTimeout(function () { boton.textContent = "Copiar prompt"; }, 1500);
+    }).catch(function () {
+      var rango = document.createRange();
+      rango.selectNodeContents(boton.parentElement.querySelector("p"));
+      var sel = getSelection(); sel.removeAllRanges(); sel.addRange(rango);
+      boton.textContent = "Pulsa Ctrl+C";
+    });
+  });
+});
+</script>
