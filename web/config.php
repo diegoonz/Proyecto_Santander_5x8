@@ -10,13 +10,13 @@ define("FICHERO_INSCRIPCIONES", "inscripciones.txt");
 define("CARPETA_IMG", "img/");
 define("CARPETA_VIDEOS", "videos/");
 
-// Menu
+// Menu: archivo de la pagina => texto
 $menu = array(
-    "inicio" => "Inicio",
-    "centros" => "Centros",
-    "programa" => "Programa",
-    "foros" => "Foros",
-    "reels" => "Reels"
+    "index.php" => "Inicio",
+    "centros.php" => "Centros",
+    "programa.php" => "Programa",
+    "foros.php" => "Foros",
+    "reels.php" => "Reels"
 );
 
 // Programa del dia 1
