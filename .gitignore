@@ -10,3 +10,6 @@ desktop.ini
 
 # Configuración local de Claude
 .claude/
+
+# Datos personales de los inscritos: no se suben
+web/inscripciones.txt
