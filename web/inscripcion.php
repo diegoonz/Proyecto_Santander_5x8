@@ -28,22 +28,42 @@ if (isset($_POST["enviar"])) {
         $mensaje = "Elige un centro de la lista.";
         $tipo = "danger";
     } else {
-        // el fichero es .php y empieza con exit: si alguien lo abre en el navegador no ve los datos
-        $nuevo = !file_exists(FICHERO_INSCRIPCIONES);
-        $fichero = fopen(FICHERO_INSCRIPCIONES, "a");
-        if ($nuevo) {
-            fwrite($fichero, "<?php exit; ?>\n");
+        // el fichero es .php y empieza con exit: si alguien lo abre en el navegador no ve los datos.
+        // Los datos van con htmlspecialchars, asi que "<?" nunca llega al fichero y no se puede meter codigo.
+        $cabecera = "<?php exit; ?>\n";
+        $limpio = array();
+        foreach (array($nombre, $email, $centroElegido) as $dato) {
+            // sin | ni saltos de linea, que son los separadores del fichero
+            $limpio[] = htmlspecialchars(str_replace(array("|", "\r", "\n"), " ", $dato), ENT_QUOTES, "UTF-8", false);
         }
-        // sin | ni saltos de linea, que son los separadores del fichero
-        $limpio = str_replace(array("|", "\r", "\n"), " ", array($nombre, $email, $centroElegido));
-        fwrite($fichero, date("Y-m-d H:i") . "|" . implode("|", $limpio) . "\n");
-        fclose($fichero);
-
-        $mensaje = "¡Inscripción guardada! Nos vemos en la feria, " . htmlspecialchars($nombre) . ".";
-        $tipo = "success";
-        $nombre = "";
-        $email = "";
-        $centroElegido = "";
+        $fichero = fopen(FICHERO_INSCRIPCIONES, "c+");
+        $guardado = false;
+        if ($fichero && flock($fichero, LOCK_EX)) {
+            $inicio = fread($fichero, strlen($cabecera));
+            if ($inicio === "" || $inicio === false) {
+                fwrite($fichero, $cabecera);
+            }
+            // solo se escribe si el fichero empieza de verdad con la cabecera
+            if ($inicio === "" || $inicio === false || $inicio === $cabecera) {
+                fseek($fichero, 0, SEEK_END);
+                fwrite($fichero, date("Y-m-d H:i") . "|" . implode("|", $limpio) . "\n");
+                $guardado = true;
+            }
+            flock($fichero, LOCK_UN);
+        }
+        if ($fichero) {
+            fclose($fichero);
+        }
+        if ($guardado) {
+            $mensaje = "¡Inscripción guardada! Nos vemos en la feria, " . htmlspecialchars($nombre) . ".";
+            $tipo = "success";
+            $nombre = "";
+            $email = "";
+            $centroElegido = "";
+        } else {
+            $mensaje = "No se pudo guardar la inscripción. Inténtalo más tarde.";
+            $tipo = "danger";
+        }
     }
 }
 
