@@ -28,7 +28,12 @@ if (isset($_POST["enviar"])) {
         $mensaje = "Elige un centro de la lista.";
         $tipo = "danger";
     } else {
+        // el fichero es .php y empieza con exit: si alguien lo abre en el navegador no ve los datos
+        $nuevo = !file_exists(FICHERO_INSCRIPCIONES);
         $fichero = fopen(FICHERO_INSCRIPCIONES, "a");
+        if ($nuevo) {
+            fwrite($fichero, "<?php exit; ?>\n");
+        }
         // sin | ni saltos de linea, que son los separadores del fichero
         $limpio = str_replace(array("|", "\r", "\n"), " ", array($nombre, $email, $centroElegido));
         fwrite($fichero, date("Y-m-d H:i") . "|" . implode("|", $limpio) . "\n");
@@ -45,7 +50,7 @@ if (isset($_POST["enviar"])) {
 // contar inscritos
 $totalInscritos = 0;
 if (file_exists(FICHERO_INSCRIPCIONES)) {
-    $totalInscritos = count(file(FICHERO_INSCRIPCIONES));
+    $totalInscritos = count(file(FICHERO_INSCRIPCIONES)) - 1; // la primera linea es el exit
 }
 
 require "header.php";

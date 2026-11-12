@@ -7,7 +7,7 @@ define("TITULO", "III FERIA VIRTUAL LA SALLE BUSINESS MATCH 2027");
 define("LEMA", "Conecta con los centros participantes, descubre sus proyectos y participa en los foros y encuentros de la feria.");
 define("FECHA_INICIO", "2027-03-18 10:00:00");
 define("FICHERO_CENTROS", "centros.txt");
-define("FICHERO_INSCRIPCIONES", "inscripciones.txt");
+define("FICHERO_INSCRIPCIONES", "inscripciones.php");
 define("CARPETA_IMG", "img/");
 define("CARPETA_VIDEOS", "videos/");
 

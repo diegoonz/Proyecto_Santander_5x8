@@ -2,7 +2,7 @@
 .vs/
 
 # Inscripciones: llevan nombres y correos, no se suben a GitHub
-web/inscripciones.txt
+web/inscripciones.php
 
 # Archivos del sistema
 Thumbs.db
@@ -12,4 +12,4 @@ desktop.ini
 .claude/
 
 # Datos personales de los inscritos: no se suben
-web/inscripciones.txt
+web/inscripciones.php
