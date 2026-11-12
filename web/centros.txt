@@ -1,22 +1,3 @@
-# =====================================================================
-# CENTROS PARTICIPANTES: una línea por centro
-# nombre|ciudad|info|siglas|enlace|imagen
-#
-# Las líneas que empiezan por # son comentarios: la web las ignora.
-#
-# CAMBIAR antes de entregar:
-#  - Comprobad con la organización qué centros participan de verdad.
-#    Estos son centros reales de Cantabria buscados en internet (27/10/2026).
-#  - La "info" la hemos redactado nosotros: revisadla con cada centro.
-#  - Los enlaces "#" están sin rellenar: poned la web oficial de cada centro.
-#    Solo están comprobadas lasallesantander.es e iessantaclara.com.
-#  - Las imágenes "ejemplo-..." son ilustraciones: cambiadlas por fotos reales.
-# =====================================================================
-Colegio La Salle Santander|Santander|Centro concertado: infantil, primaria, ESO y bachillerato.|LS|https://www.lasallesantander.es|ejemplo-centro-ls.svg
-IES Santa Clara|Santander|Centro público: ESO, bachillerato y FP de servicios a la comunidad.|SC|https://iessantaclara.com|ejemplo-centro-sc.svg
-CIFP Número Uno|Santander|Centro integrado de formación profesional.|N1|#|ejemplo-centro-n1.svg
-IES Peñacastillo|Santander|Centro público: ESO, bachillerato y formación profesional.|PC|#|ejemplo-centro-pc.svg
-Colegio La Salle San Juan Bautista|Los Corrales de Buelna|Centro concertado de La Salle: infantil, primaria y ESO.|SJ|#|ejemplo-centro-sj.svg
-CIFP La Granja|Heras|Centro integrado de formación profesional agraria.|LG|#|ejemplo-centro-lg.svg
-IES Marqués de Manzanedo|Santoña|Centro público de educación secundaria.|MM|#|ejemplo-centro-mm.svg
-IES José del Campo|Ampuero|Centro público de educación secundaria.|JC|#|ejemplo-centro-jc.svg
+# Añade solo centros confirmados. Una línea por centro, en UTF-8.
+# nombre|ciudad|descripción|siglas|URL oficial completa|archivo de imagen
+# Ciudad, descripción, siglas, URL e imagen pueden quedar vacías. Conserva los separadores.
